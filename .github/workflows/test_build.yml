@@ -36,10 +36,11 @@ jobs:
 
       - name: Zip build
         run: |
-          zip -r speed-reader.zip ${{ github.workspace }}/build/
+          cd build
+          zip -r ../speed-reader.zip ./*
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: speed-reader.zip
+          name: speed-reader
           path: speed-reader.zip
