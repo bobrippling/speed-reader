@@ -34,13 +34,8 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Zip build
-        run: |
-          cd build
-          zip -r ../speed-reader.zip ./*
-
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: speed-reader
-          path: speed-reader.zip
+          path: ${{github.workspace}}/build/
