@@ -1,0 +1,41 @@
+name: "Test and build workflow"
+on:
+  push:
+    branches: master
+  pull_request:
+    branches: "*"
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+
+      - name: Install Yarn
+        run: |
+          npm install -g yarn
+          yarn --version
+
+      - name: Run install
+        run: yarn install
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build
+        run: yarn build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: speed-reader
+          path: ${{github.workspace}}/build/
